@@ -2,8 +2,8 @@ import Data.List
 
 computeNumberAuxLeft :: String -> String
 computeNumberAuxLeft [] = "0"
-computeNumberAuxLeft (x:xs) 
-            | [x] `elem` map show [0..9] = [x]
+computeNumberAuxLeft xs
+            | [head xs] `elem` map show [0..9] = [head xs]
             | "one" `isPrefixOf` xs = "1"
             | "two" `isPrefixOf` xs = "2"
             | "three" `isPrefixOf` xs = "3"
@@ -14,7 +14,7 @@ computeNumberAuxLeft (x:xs)
             | "eight" `isPrefixOf` xs = "8"
             | "nine" `isPrefixOf` xs = "9"
             | "zero" `isPrefixOf` xs = "0"
-            | otherwise = computeNumberAuxLeft xs
+            | otherwise = computeNumberAuxLeft $ tail xs
 
 computeNumberAuxRight :: String -> String
 computeNumberAuxRight [] = "0"
@@ -32,12 +32,12 @@ computeNumberAuxRight xs
             | "zero" `isSuffixOf` xs = "0"
             | otherwise = computeNumberAuxRight $ init xs
 
-computeNumberTask2 :: String -> Int
-computeNumberTask2 [] = 0
-computeNumberTask2 s = read (computeNumberAuxLeft s ++ computeNumberAuxRight s)::Int
+computeNumber :: String -> Int
+computeNumber [] = 0
+computeNumber s = read (computeNumberAuxLeft s ++ computeNumberAuxRight s)::Int
 
 
 main :: IO ()
 main = interact $ \input -> 
-  let output = sum $ map computeNumberTask2 (lines input)
+  let output = sum $ map computeNumber (lines input)
   in show output
