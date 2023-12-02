@@ -1,6 +1,5 @@
 import Data.List
 
-
 computeNumberAuxLeft :: String -> String
 computeNumberAuxLeft [] = "0"
 computeNumberAuxLeft (x:xs) 
@@ -19,8 +18,8 @@ computeNumberAuxLeft (x:xs)
 
 computeNumberAuxRight :: String -> String
 computeNumberAuxRight [] = "0"
-computeNumberAuxRight (xs:x) 
-            | [x] `elem` map show [0..9] = [x]
+computeNumberAuxRight xs 
+            | [last xs] `elem` map show [0..9] = [last xs]
             | "one" `isSuffixOf` xs = "1"
             | "two" `isSuffixOf` xs = "2"
             | "three" `isSuffixOf` xs = "3"
@@ -31,7 +30,7 @@ computeNumberAuxRight (xs:x)
             | "eight" `isSuffixOf` xs = "8"
             | "nine" `isSuffixOf` xs = "9"
             | "zero" `isSuffixOf` xs = "0"
-            | otherwise = computeNumberAuxRight xs
+            | otherwise = computeNumberAuxRight $ init xs
 
 computeNumberTask2 :: String -> Int
 computeNumberTask2 [] = 0
