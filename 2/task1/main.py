@@ -46,7 +46,6 @@ def main():
                 is_possible = False
                 break
         if is_possible:
-            #print(ctr)
             sum = sum + ctr
         ctr = ctr + 1
     print(sum)
