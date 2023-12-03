@@ -126,6 +126,8 @@ def main():
     engine = Schematic(schematic)
     engine.traverse_schematic()
     print(engine.part_number_sum())
+    engine.part_numbers.sort()
+    print(engine.part_numbers)
 
 if __name__ == "__main__":
     main()
