@@ -1,5 +1,5 @@
 import sys
-
+from typing import List
 small_input = \
 """467..114..
 ...*......
@@ -26,9 +26,11 @@ class Schematic:
         self.max_j = len(matrix[0]) - 1
         self.max_i = len(matrix) - 1
         self.matrix = matrix
-
+    
+    def get_part_numbers(self) -> List[int]:
+        return (self.part_numbers.sort())
     def part_number_sum(self) -> int:
-        return sum(set(self.part_numbers))
+        return sum(self.part_numbers)
     
     def get_number(self, i: int, j: int) -> int:
         """get the number from the matrix @ pos i,j
@@ -46,14 +48,14 @@ class Schematic:
         ctr = 0
         while j + ctr < self.max_j and is_digit(self.matrix[i][j+ctr]):
             number = number + self.matrix[i][j+ctr]
-            #self.matrix[i][j+ctr] = "." # erase the digit to avoid double-counting
+            self.matrix[i][j+ctr] = "." # erase the digit to avoid double-counting
             ctr = ctr + 1
         
         # Go backwards through the string
         ctr = 1
         while j - ctr >= 0 and is_digit(self.matrix[i][j-ctr]):
             number = self.matrix[i][j-ctr] + number
-            #self.matrix[i][j-ctr] = "." # erase the digit to avoid double-counting
+            self.matrix[i][j-ctr] = "." # erase the digit to avoid double-counting
             ctr = ctr + 1
         return int(number)
 
