@@ -41,7 +41,7 @@ class Configuration:
 
 def main():
     sum = 0
-    for game in data.split('\n'):
+    for game in sys.sdtin:
         min_config = Configuration()
         draws = game.split(": ")[-1].split(';')
         for draw in draws:
