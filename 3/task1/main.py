@@ -110,7 +110,9 @@ class Schematic:
                 if is_symbol(current_character):
                     hits = self.get_adjecents(i, j)
                     for hit in hits:
-                        sum = sum + self.get_number(*hit)
+                        n = self.get_number(*hit)
+                        self.part_numbers.append(n)
+                        sum = sum + n
         print(sum)
 
 def main():
@@ -120,6 +122,8 @@ def main():
             schematic.append(list(line))
     engine = Schematic(schematic)
     engine.traverse_schematic()
+    engine.part_numbers.sort()
+    print(engine.part_numbers)
 
     
     
