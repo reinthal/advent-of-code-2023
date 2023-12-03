@@ -27,6 +27,8 @@ class Schematic:
         self.max_i = len(matrix) - 1
         self.matrix = matrix
 
+    def part_number_sum(self) -> int:
+        return sum(set(self.part_numbers))
     
     def get_number(self, i: int, j: int) -> int:
         """get the number from the matrix @ pos i,j
@@ -44,21 +46,21 @@ class Schematic:
         ctr = 0
         while j + ctr < self.max_j and is_digit(self.matrix[i][j+ctr]):
             number = number + self.matrix[i][j+ctr]
-            self.matrix[i][j+ctr] = "." # erase the digit to avoid double-counting
+            #self.matrix[i][j+ctr] = "." # erase the digit to avoid double-counting
             ctr = ctr + 1
         
         # Go backwards through the string
         ctr = 1
         while j - ctr >= 0 and is_digit(self.matrix[i][j-ctr]):
             number = self.matrix[i][j-ctr] + number
-            self.matrix[i][j-ctr] = "." # erase the digit to avoid double-counting
+            #self.matrix[i][j-ctr] = "." # erase the digit to avoid double-counting
             ctr = ctr + 1
         return int(number)
 
     def get_adjecents(self, i,j):
         """get adjecent numbers of i,j
         
-        a number can be adjecent in  8 ways
+        a number can be adjecent in 8 ways
              \ ^ /  
             <- x ->
              / ~ \ 
@@ -102,6 +104,8 @@ class Schematic:
             if e is a symbol
                 numbers = get_adjecent(e)
                 remove numbers from matrix marking them with ...
+                add numbers to sum
+        print sum
         """
         sum = 0
         for i in range(0, self.max_i + 1):
@@ -110,26 +114,16 @@ class Schematic:
                 if is_symbol(current_character):
                     hits = self.get_adjecents(i, j)
                     for hit in hits:
-                        n = self.get_number(*hit)
-                        self.part_numbers.append(n)
-                        sum = sum + n
-        print(sum)
+                        self.part_numbers.append(self.get_number(*hit))
 
 def main():
     schematic = []
     with open(sys.argv[1], 'r') as fp:
         for line in fp.readlines():
-            schematic.append(list(line))
+            schematic.append(list(line.strip()))
     engine = Schematic(schematic)
     engine.traverse_schematic()
-    engine.part_numbers.sort()
-    print(engine.part_numbers)
-
-    
-    
-
-
-    pass
+    print(engine.part_number_sum())
 
 if __name__ == "__main__":
     main()
